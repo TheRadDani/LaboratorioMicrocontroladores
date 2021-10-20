@@ -1,5 +1,20 @@
 #include <EEPROM.h>
+#include <Servo.h>
 #include <math.h>
+
+//objetos del servo
+Servo servo_vertical;
+Servo servo_horizontal;
+
+int pinservo_vertical=12;
+int pinservo_horizontal=11;
+//lectura del pot
+int ver_val;
+int hor_val;
+/////
+int POT_1 = 1;      // potenciometro en entrada analogica A1
+int POT_2 = 2;      // potenciometro en entrada analogica A2
+///////////////////////////
 float a;
 int b;
 int address=0;
@@ -25,7 +40,10 @@ float rntc = 0.0;
 float temperaturaK = 0.0;
 
 
-void setup() {
+void setup() 
+{
+  servo_vertical.attach(pinservo_vertical);  // inicializacion de servo vertical
+  servo_horizontal.attach(pinservo_horizontal);  // inicializacion de servo vertical
   pinMode(led,OUTPUT);
   Serial.begin(9600);
 }
@@ -35,7 +53,7 @@ a=millis()/1000;
 /*Serial.println(a);
 delay(1000);*/
 b=(int)a%5;
-rain_detection = analogRead(rele)/ 4;
+rain_detection = analogRead(rele);
 
 
 //Bloque de cálculo temperatura
@@ -48,15 +66,35 @@ float temperaturaC = temperaturaK - 273;
 //Serial.println(temperaturaC);
 delay(1000); 
 
+////funcionamiento servo vertical
+ver_val = analogRead(POT_1);      // valor pin A1
+ver_val = map(ver_val, 0, 1023, 0, 180);  // con funcion map convierte rango de 0 a 1023
+            // a rango de angulo de 0 a 180
+servo_vertical.write(ver_val);       // envia al servo el valor del angulo
+delay(15);   
+ 
+////funcionamiento servo horizontal
+hor_val = analogRead(POT_2);      // valor pin A2
+hor_val = map(hor_val, 0, 1023, 0, 180);  // con funcion map convierte rango de 0 a 1023
+            // a rango de angulo de 0 a 180
+servo_horizontal.write(hor_val);       // envia al servo el valor del angulo
+delay(15);    
+
+
+
+
 
 //eeprom
 if(b==0 && a!=0)
 {
-  EEPROM.put(address,temperaturaC);
-  EEPROM.put(address,rain_detection);
-  address ++;
+  EEPROM.write(address,temperaturaC);
+  Serial.println(address);
   Serial.println(EEPROM.get(address,temperaturaC));
+  address+=sizeof(float);
+  EEPROM.write(address,rain_detection);
+  Serial.println(address);
   Serial.println(EEPROM.get(address,rain_detection));
+  address+=sizeof(float);
   if (address == EEPROM.length())
   {
     //clear EEPROM
