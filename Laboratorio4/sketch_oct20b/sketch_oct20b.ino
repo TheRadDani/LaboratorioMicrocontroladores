@@ -44,17 +44,18 @@ rntc = rAux / ((vcc/vm)-1);                       //Calcular la resistencia de l
 temperaturaK = beta/(log(rntc/r0)+(beta/temp0));  //Calcular la temperatura en Kelvin
 
 //Restar 273 para pasar a grados celsus
-Serial.println(temperaturaK - 273);
-  
-  delay(1000); 
+float temperaturaC = temperaturaK - 273;
+//Serial.println(temperaturaC);
+delay(1000); 
 
-/*
+
 //eeprom
 if(b==0 && a!=0)
 {
   EEPROM.put(address,rain_detection);
+  EEPROM.put(address,rain_detection);
   address ++;
-  Serial.println(address);
+  Serial.println(address,temperaturaC);
   Serial.println(EEPROM.get(address,rain_detection));
   if (address == EEPROM.length())
   {
@@ -67,7 +68,7 @@ if(b==0 && a!=0)
   } 
   delay(1000);
 } 
-*/
+
 
  /*valor_advertencia =analogRead(advertencia);
  if(valor_relay>1022)
