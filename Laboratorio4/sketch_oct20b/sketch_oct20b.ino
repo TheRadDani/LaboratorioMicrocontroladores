@@ -52,10 +52,10 @@ delay(1000);
 //eeprom
 if(b==0 && a!=0)
 {
-  EEPROM.put(address,rain_detection);
+  EEPROM.put(address,temperaturaC);
   EEPROM.put(address,rain_detection);
   address ++;
-  Serial.println(address,temperaturaC);
+  Serial.println(EEPROM.get(address,temperaturaC));
   Serial.println(EEPROM.get(address,rain_detection));
   if (address == EEPROM.length())
   {
