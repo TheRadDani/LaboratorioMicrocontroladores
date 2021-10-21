@@ -19,7 +19,7 @@ float a;
 int b;
 int address=0;
 int led = 13;
-int advertencia= 12;
+int advertencia= 14;
 int valor_advertencia=0;
 int rele=15;
 int rain_detection=0;
@@ -45,6 +45,10 @@ void setup()
   servo_vertical.attach(pinservo_vertical);  // inicializacion de servo vertical
   servo_horizontal.attach(pinservo_horizontal);  // inicializacion de servo vertical
   pinMode(led,OUTPUT);
+  pinMode(10,OUTPUT);
+  pinMode(9,OUTPUT);
+  digitalWrite(10,LOW);
+   digitalWrite(9,HIGH);
   Serial.begin(9600);
 }
 void loop() 
@@ -107,13 +111,16 @@ if(b==0 && a!=0)
   delay(1000);
 } 
 
-
- /*valor_advertencia =analogRead(advertencia);
- if(valor_relay>1022)
+//led
+ valor_advertencia =analogRead(advertencia);
+ if(valor_advertencia==0)
  {
-    digitalWrite(led,HIGH);
+   digitalWrite(10,HIGH);
+   digitalWrite(9,LOW);
+   digitalWrite(led,HIGH);
    delay(100);
    digitalWrite(led,LOW);
- }*/
+   delay(100);
+ }
  
 }
