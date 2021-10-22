@@ -58,7 +58,7 @@ float r0 = 10000.0;
 //Variables usadas en el cálculo
 float vm = 0.0;
 float rntc = 0.0;
-float temperaturaK = 0.0;
+float temperaturaK, v_med_viento = 0.0;
 
 
 void setup() 
@@ -110,6 +110,19 @@ void loop(){
   
   xChart++;
 
+  delay(1000); 
+  /*---------------------------------------------------------------------------*/
+
+  /*---------------------------------------------------------------------------*/
+  //Bloque de cálculo velocidad de viento
+  v_med_viento=(vcc / 1024)*( analogRead(3) ); //Calcular tensión en la entrada
+  float velocidad = 6*v_med_viento;
+  lcd.setCursor(1, 1);
+  lcd.print("Wind: ");
+  lcd.print(velocidad, 1);
+  lcd.print(" m/s ");
+  lcd.setCursor(xChart, 2);
+  
   delay(1000); 
   /*---------------------------------------------------------------------------*/
   
