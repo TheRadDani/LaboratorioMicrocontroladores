@@ -1,7 +1,11 @@
+#include <PCD8544.h>
 #include <EEPROM.h>
 #include <Servo.h>
 #include <math.h>
 
+
+//servo inicialmente centrado
+int pos = 90;
 //objetos del servo
 Servo servo_vertical;
 Servo servo_horizontal;
@@ -39,20 +43,46 @@ float vm = 0.0;
 float rntc = 0.0;
 float temperaturaK = 0.0;
 
+//lcd
+static const byte glyph[] = { B00010000, B00110100, B00110000, B00110100, B00010000 };
+static PCD8544 lcd;
 
 void setup() 
 {
   servo_vertical.attach(pinservo_vertical);  // inicializacion de servo vertical
   servo_horizontal.attach(pinservo_horizontal);  // inicializacion de servo vertical
+  // empezar servo en 90 grados
+  servo_vertical.write(pos); 
+  servo_horizontal.write(pos)
+  //configuracion de led de advertencia y activar o desactivar regulador
   pinMode(led,OUTPUT);
   pinMode(10,OUTPUT);
   pinMode(9,OUTPUT);
   digitalWrite(10,LOW);
-   digitalWrite(9,HIGH);
+  digitalWrite(9,HIGH);
+  //lcd
+  lcd.begin(84, 48); 
+  lcd.createChar(0, glyph);
   Serial.begin(9600);
 }
 void loop() 
 {
+ //lcd
+ // Write some text on the first line...
+lcd.setCursor(0,0) ;
+lcd.print("Hello, World!");
+lcd.write(' ');
+lcd.write(0);  // write the smiley
+delay(200);
+
+
+
+
+
+
+
+
+  
 a=millis()/1000;
 /*Serial.println(a);
 delay(1000);*/
